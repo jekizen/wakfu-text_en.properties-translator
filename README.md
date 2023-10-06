@@ -10,12 +10,17 @@ This script is a Wakfu text_en.properties (from ~/.config/Ankama/zaap-steam/wakf
 Used source text from https://github.com/A-Charvin/WakfuChatTranslate and modified it to translate a large text_en.properties file.
 If the program is interrupted, when it is started again, the program scans the translated.txt file, determines the number of previously translated lines, and continues translation from the number of the last translated line.
 
-for 
 
+Возможны ошибки из-за ошибок в файле text_en.properties так как бывает что в строке нет знака '='.  В каждой строке должен быть знак '='.
+Перейдите в конец файла translated.txt, запомните номер строки. Далее откройте файл texts_en.properties, найдите эту строку и проверте, возможен перевод строки ранее окончания строки, исправте и сохраните. Запустите программу заново: python3 wakfu_test_translator.py.
+
+
+Errors are possible due to errors in the text_en.properties file, as it happens that there is no '=' sign in the line. Each line must have a '=' sign.Errors are possible due to errors in the text_en.properties file, as it happens that there is no '=' sign in the line. Each line must have a '=' sign.
+Go to the end of the translated.txt file, remember the line number. Next, open the texts_en.properties file, find this line and check, it is possible to break the line before the end of the line, correct and save. Run the program again: python3 wakfu_test_translator.py.
 
 ## Features
 
-- Reads the latest chat messages from the Wakfu chat log file
+- Reads the text_en.properties ant translated to the translated.txt file
 - Translates the messages using the Google Translate API
 - Supports automatic language detection and translation to English
 - Updates the GUI with the translated messages in real-time
