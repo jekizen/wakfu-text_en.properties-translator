@@ -1,5 +1,6 @@
 from typing import List
 
+import deep_translator.exceptions
 import requests
 import os
 import PySimpleGUI as sg
@@ -62,7 +63,7 @@ def translate_message(message):
 
 
 def update_chat_log():
-    i = 1
+#    i = 1
 
     count2 = 0
 
@@ -83,8 +84,6 @@ def update_chat_log():
             window["-count2-"].update(str(count2))
             window.refresh()
 
-    #time.sleep(3)
-    # cont
 
     num_lines = count2 + 1
     with open(chat_log_file, 'r', encoding='utf-8') as f:
@@ -94,7 +93,7 @@ def update_chat_log():
             window.refresh()
             # window["-INFO1-"].update('Count lines in target file:'+str(num_lines) + '\n', append=True)
 
-    thererun=count2
+    #thererun=count2
     with open(chat_log_file, 'r', encoding='utf-8') as f:
         line: str
         countLine: int
@@ -107,16 +106,25 @@ def update_chat_log():
             # s=line.rstrip()
 
             s2 = s.split('=', 1)
-            #s3 = translate_message(s2[1])
-            #s3 = s2[1]
             try:
-                 s3 = gtr.translate(text=s2[1])
+                s3 = gtr.translate(text=s2[1])
             except Exception as err:
+                s3 = s2[1]
+                window["-INFO1-"].update(str(err) + '\n', append=True)
+                window["-INFO1-"].update("Check to string:" + '\n', append=True)
+                window["-INFO1-"].update(s2[0] + '=' + s2[1] + '\n\n', append=True)
+                with open(fileerr, 'a+', encoding='utf-8') as ffeerr:
+                    ffeerr.write(str(err) + '\n' + s2[0] + '=' + s2[1] + '\n\n')
+                pass
+
+            if s3 == None:
                  s3 = s2[1]
-                 window["-INFO1-"].update(str(err)+ '\n', append=True)
+                 window["-INFO1-"].update("Error, string = None"+ '\n', append=True)
+                 window["-INFO1-"].update("Check to string:"+ '\n', append=True)
                  window["-INFO1-"].update(s2[0]+'=' + s2[1] + '\n\n', append=True)
-                 with open(file2, 'a', encoding='utf-8') as ffeerr:
-                     ffeerr.write(str(err)+ '\n'+s2[0]+'=' + s2[1] + '\n\n')
+                 with open(fileerr, 'a+', encoding='utf-8') as ffeerr:
+                     ffeerr.write("Check to string:"+ '\n'+s2[0]+'=' + s2[1] + '\n\n')
+                 #pass
 
             if countLine % 200 == 0:
                 window["-OUTPUT-"].update(' ' + '\n', append=False)

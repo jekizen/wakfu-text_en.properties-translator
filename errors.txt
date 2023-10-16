@@ -1,0 +1,9 @@
+??? --> text must be a valid text with maximum 5000 character, otherwise it cannot be translated
+breta.donjon.morose12=???
+
+... --> text must be a valid text with maximum 5000 character, otherwise it cannot be translated
+cire.momore.text=...
+
+Check to string:
+colon=: 
+
