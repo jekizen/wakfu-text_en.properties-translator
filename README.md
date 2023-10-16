@@ -13,10 +13,12 @@ If the program is interrupted, when it is started again, the program scans the t
 
 Возможны ошибки из-за ошибок в файле text_en.properties так как бывает что в строке нет знака '='.  В каждой строке должен быть знак '='.
 Перейдите в конец файла translated.txt, запомните номер строки. Далее откройте файл texts_en.properties, найдите эту строку и проверте, возможен перевод строки ранее окончания строки, исправте и сохраните. Запустите программу заново: python3 wakfu_test_translator.py.
+Добавлены строки в код, для обработки подобных ошибок, информация об ошибках сохраняется в файле: errors.txt.
 
 
 Errors are possible due to errors in the text_en.properties file, as it happens that there is no '=' sign in the line. Each line must have a '=' sign.Errors are possible due to errors in the text_en.properties file, as it happens that there is no '=' sign in the line. Each line must have a '=' sign.
 Go to the end of the translated.txt file, remember the line number. Next, open the texts_en.properties file, find this line and check, it is possible to break the line before the end of the line, correct and save. Run the program again: python3 wakfu_test_translator.py.
+Lines have been added to the code to handle such errors; error information is stored in the file: errors.txt.
 
 ## Features
 
@@ -30,17 +32,18 @@ Go to the end of the translated.txt file, remember the line number. Next, open t
 
 Before running the script, make sure you have the following installed:
 
-- Python (version 3.6 or higher)
-- Required Python libraries: requests, os, tkinter, PySimpleGUI
+- Python (version 3.6 or higher);
+- Required Python libraries: requests, os, tkinter, PySimpleGUI, deep-translator.
 
 ## Usage
 
 1. Clone the repository or download the script file to your local machine.
-2. Install the required Python libraries using pip: `pip install requests os tkinter PySimpleGUI`
-3. Open a terminal or command prompt and navigate to the directory where the script is located.
-4. Run the script using the command: `python wakfu_chat_translator.py`
-5. The GUI window will open, displaying the translated messages as they are updated in the Wakfu chat log file.
-6. Press `Alt + F12` to exit the program.
+2. Install the required Python libraries using pip: `pip install requests os tkinter PySimpleGUI `
+3. Install the required Python libraries using pip: `pip install -U deep-translator`
+4. Open a terminal or command prompt and navigate to the directory where the script is located.
+5. Run the script using the command: `python wakfu_chat_translator.py`
+6. The GUI window will open, displaying the translated messages as they are updated in the Wakfu chat log file.
+7. Press `Alt + F12` to exit the program.
 
 ## Customization
 
