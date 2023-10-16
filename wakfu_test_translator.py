@@ -1,19 +1,28 @@
+from typing import List
+
 import requests
 import os
 import PySimpleGUI as sg
 import time
 import re
 
-# i=1
+from deep_translator import GoogleTranslator as googtr
+
+gtr = googtr(source='auto', target='ru')
+
+
+
 # Get the username of the current user
 username = os.getlogin()
 
 # Wakfu chat log file path
 chat_log_file = f'texts_en.properties'
 file2 = f'translated.txt'
+fileerr = f'errors.txt'
 
 # Google Translate API endpoint
 translate_api_endpoint = 'https://translate.googleapis.com/translate_a/single'
+#translate_api_endpoint = 'https://translate.googleapis.com/language/translate/v2'
 
 # Default translation settings
 from_lang = 'auto'
@@ -22,10 +31,11 @@ to_lang = 'ru'
 # GUI setup
 sg.theme("DarkTeal9")  # Set the window theme to a dark theme
 
-layout = [[sg.Multiline(size=(80, 20), key="-OUTPUT-", auto_refresh=True, autoscroll=False)],
-          [sg.Text("Count lines in translated file"), sg.In(size=(25, 1), enable_events=True, key="-count2-")],
-          [sg.Text("Count lines in target file"), sg.In(size=(25, 1), enable_events=True, key="-counttarget-")],
-          [sg.Multiline(size=(80, 10), key="-INFO1-", auto_refresh=True, autoscroll=False)],
+layout = [[sg.Multiline(size=(180, 20), key="-OUTPUT-", auto_refresh=True, autoscroll=False)],
+          [sg.Text("Count lines in translated file"), sg.In(size=(100, 1), enable_events=True, key="-count2-")],
+          [sg.Text("     Count lines in target file"), sg.In(size=(100, 1), enable_events=True, key="-counttarget-")],
+          [sg.Text("                       Progress:"), sg.In(size=(100, 1), enable_events=True, key="-progress-")],
+          [sg.Multiline(size=(180, 10), key="-INFO1-", auto_refresh=True, autoscroll=False)],
           [sg.ProgressBar(1000, orientation='h', size=(51, 10), key='progressbar')]
           ]
 window = sg.Window("Wakfu texts_en.properties Translator", layout, finalize=True)
@@ -37,6 +47,8 @@ def translate_message(message):
         'client': 'gtx',
         'sl': from_lang,
         'tl': to_lang,
+        'model': 'nmt',
+        'backend': 10,
         'dt': 't',
         'q': message,
     }
@@ -95,18 +107,30 @@ def update_chat_log():
             # s=line.rstrip()
 
             s2 = s.split('=', 1)
+            #s3 = translate_message(s2[1])
+            #s3 = s2[1]
+            try:
+                 s3 = gtr.translate(text=s2[1])
+            except Exception as err:
+                 s3 = s2[1]
+                 window["-INFO1-"].update(str(err)+ '\n', append=True)
+                 window["-INFO1-"].update(s2[0]+'=' + s2[1] + '\n\n', append=True)
+                 with open(file2, 'a', encoding='utf-8') as ffeerr:
+                     ffeerr.write(str(err)+ '\n'+s2[0]+'=' + s2[1] + '\n\n')
 
-            translated_message = s2[0] + '=' + translate_message(s2[1])
-            window["-OUTPUT-"].update(translated_message + '\n', append=True)
-            window["-INFO1-"].update(str(countLine) + ': all =' + str(num_lines) + '\n', append=False)
-            if countLine % 100 == 0:
-                window["-OUTPUT-"].update(translated_message + '\n', append=False)
+            if countLine % 200 == 0:
+                window["-OUTPUT-"].update(' ' + '\n', append=False)
+            translated_message = s2[0] + '=' + s3
+            window["-OUTPUT-"].update('en: '+s2[1] + '\n\n', append=True)
+            window["-OUTPUT-"].update('ru: '+s3 + '\n\n\n', append=True)
+
+            window["-progress-"].update(str(countLine) + ': all =' + str(num_lines))
             window['progressbar'].UpdateBar(int(countLine * 1000 / num_lines))
             # window.refresh()
 
             time.sleep(0.01)
             with open(file2, 'a', encoding='utf-8') as temp:
-                temp.write(translated_message + '\n');
+                temp.write(translated_message + '\n')
 
         # with open("temp.txt", 'w') as fw:
         # time.sleep(100)
