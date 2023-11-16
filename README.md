@@ -77,3 +77,11 @@ SmertX(Proton) 13 ноя. 2021 в 20:37
 3)в папке "contents" найди папку "i18n", в ней "i18n_en.jar" <= открой это любым архивом. Замени в ней "texts_en.properties" на тот, что был в "data.zip"
 4)Вернись в папку "contents", найди папку "gui_jar", открой архивом "gui.jar", перемести из "data.zip" папку "theme"
 5)Поздравляю, братик/сестренка, у тебя игра на русском спиче :csgo_ez:
+
+en:
+In short, I'm a Linux guy, installation guide. Download github/Valianton/Wakfu-Translate/tree/master/data = data.zip. Open the client, there is a gear under the “play” button, click on it. Under 'game options' there will be 'game folder' click on 'open the game folder'. The magic has gone
+1)open the 'contents' folder
+2) open the archive 'data.zip'
+3) in the 'contents' folder, find the 'i18n' folder, in it 'i18n_en.jar' = open it with any archive. Replace 'texts_en.properties' in it with the one that was in 'data.zip'
+4) Go back to the 'contents' folder, find the 'gui_jar' folder, open the 'gui.jar' archive, move the 'theme' folder from 'data.zip'
+5) Congratulations, brother/sister, you have a game in Russian speech: csgo_ez:
